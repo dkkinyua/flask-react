@@ -6,8 +6,9 @@ from models import db, Recipe
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
-api = Api(app, doc="/docs")
 db.init_app(app)
+api = Api(app, doc="/docs")
+
 
 # First API route
 @api.route('/hello')
