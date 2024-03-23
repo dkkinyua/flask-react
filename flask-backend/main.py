@@ -56,19 +56,29 @@ class RecipesResource(Resource):
         new_recipe.save()
         return new_recipe, 201
 
-@api.route("/recipe/<int:id>")
+@api.route("/recipe/<int:id>", methods = ['GET', 'PUT', 'DELETE', 'POST'])
 class RecipeResource(Resource):
+    @api.marshal_with(recipe_models)
     def get(self, id):
         # Get a recipe by a specified ID
-        pass
+        recipe = Recipe.query.get_or_404(id)
+        return recipe
 
-    def update(self, id):
+    @api.marshal_with(recipe_models)
+    def put(self, id):
         # Update a recipe by a specified ID
-        pass
-
+        recipe_to_update = Recipe.query.get_or_404(id)
+        data = request.get_json()
+        recipe_to_update.update(data.get('title'), data.get('description'))
+        return recipe_to_update
+    
+    @api.marshal_with(recipe_models)
     def delete(self, id):
         # Delete a recipe by a specified ID
-        pass
+        recipe_to_delete = Recipe.query.get_or_404(id)
+        recipe_to_delete.delete()
+        return {"message": "Recipe deleted."}, 200
+
 
 # Shell Configuration
 @app.shell_context_processor
