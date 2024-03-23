@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from config import DevelopmentConfig
 from flask_restx import Api, Resource, fields
 from models import db, Recipe
@@ -37,12 +37,24 @@ class HelloResource(Resource):
     
 @api.route("/recipes")
 class RecipesResource(Resource):
+    # A Flask RESTful decorator to fetch a list of items
+    @api.marshal_list_with(recipe_models)
     def get(self):
-        # Get a recipe
-        pass
+        # Get all recipes
+        recipes = Recipe.query.all()
+        return recipes
+    #A Flask RESTful decorator used to get a single item
+    @api.marshal_with(recipe_models)
     def post(self):
         # Post a recipe
-        pass
+        data = request.get_json() # Gets user input into JSON format
+
+        new_recipe = Recipe(
+            title=data.get('title'),
+            description=data.get('description')
+        )
+        new_recipe.save()
+        return new_recipe, 201
 
 @api.route("/recipe/<int:id>")
 class RecipeResource(Resource):
