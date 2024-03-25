@@ -1,8 +1,9 @@
 from flask import Flask, request
 from config import DevelopmentConfig
 from flask_restx import Api, Resource, fields
-from models import db, Recipe
+from models import db, Recipe, User
 from flask_migrate import Migrate
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
@@ -38,6 +39,12 @@ class HelloResource(Resource):
 @api.route("/signup")
 class SignUp(Resource):
     def post(self):
+        data = request.get_json()
+        new_user = User(
+            username = data.get('username'),
+            email = data.get('email'),
+            password = data.get('password')
+        )
         pass
 
 # The login route
@@ -60,7 +67,7 @@ class RecipesResource(Resource):
     @api.expect(recipe_models) #Tells the SwaggerUI what to expect from th API in terms of data format
     def post(self):
         # Post a recipe
-        data = request.get_json() # Gets user input into JSON format
+        data = request.get_json()
 
         new_recipe = Recipe(
             title=data.get('title'),
