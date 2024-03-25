@@ -22,6 +22,15 @@ recipe_models = api.model(
     }
 )
 
+signup_model = api.model(
+    "Signup",
+    {
+        "username": fields.String(),
+        "email": fields.String(),
+        "password": fields.String()
+    }
+)
+
 
 # First API route
 @api.route('/hello')
@@ -36,18 +45,19 @@ class HelloResource(Resource):
         return message
     
 # A sign up route
-@api.route("/signup")
+@api.route('/signup', methods=["POST"])
 class SignUp(Resource):
+    @api.expect(signup_model)
     def post(self):
         data = request.get_json()
         username = data.get('username')
-        db_user = User.query.filter(username=username).first()
+        db_user = User.query.filter_by(username=username).first()
 
         if db_user is not None:
             return jsonify({"message": f"A user with username {username} currently exists, try using another email."})
         
         email = data.get('email')
-        db_email = User.query.filter(email=email).first()
+        db_email = User.query.filter_by(email=email).first()
 
         if db_email is not None:
             return jsonify({"message": f"A user has registered an account with {email}, try using another email."})
@@ -58,10 +68,10 @@ class SignUp(Resource):
             password = generate_password_hash(data.get('password'))
         )
         new_user.save()
-        return f"<New User Signed: {new_user}>", 200
+        return jsonify({"message": f"User {username} created successfully!"})
 
 # The login route
-@api.route("/login")
+@api.route("/login", methods=["POST"])
 class Login(Resource):
     def post(self):
         pass
