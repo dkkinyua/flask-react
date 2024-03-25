@@ -43,9 +43,10 @@ class SignUp(Resource):
         new_user = User(
             username = data.get('username'),
             email = data.get('email'),
-            password = data.get('password')
+            password = generate_password_hash(data.get('password'))
         )
-        pass
+        new_user.save()
+        return f"<New User Signed: {new_user}>", 200
 
 # The login route
 @api.route("/login")
