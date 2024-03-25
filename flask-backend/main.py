@@ -2,11 +2,12 @@ from flask import Flask, request
 from config import DevelopmentConfig
 from flask_restx import Api, Resource, fields
 from models import db, Recipe
-
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
 db.init_app(app)
+migrate = Migrate(app, db)
 api = Api(app, doc="/docs")
 
 # Models {Serializer} transforms data to JSON format
