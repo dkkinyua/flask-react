@@ -33,9 +33,20 @@ class HelloResource(Resource):
             "code": "200"
         }
         return message
-
-# CRUD endpoints
     
+# A sign up route
+@api.route("/signup")
+class SignUp(Resource):
+    def post(self):
+        pass
+
+# The login route
+@api.route("/login")
+class Login(Resource):
+    def post(self):
+        pass
+
+# CRUD endpoints 
 @api.route("/recipes")
 class RecipesResource(Resource):
     # A Flask RESTful decorator to fetch a list of items
@@ -46,6 +57,7 @@ class RecipesResource(Resource):
         return recipes
     #A Flask RESTful decorator used to get a single item
     @api.marshal_with(recipe_models)
+    @api.expect(recipe_models) #Tells the SwaggerUI what to expect from th API in terms of data format
     def post(self):
         # Post a recipe
         data = request.get_json() # Gets user input into JSON format
