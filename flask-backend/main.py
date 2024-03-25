@@ -4,12 +4,14 @@ from flask_restx import Api, Resource, fields
 from models import db, Recipe, User
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
 db.init_app(app)
 migrate = Migrate(app, db)
 api = Api(app, doc="/docs")
+JWTManager(app)
 
 # Models {Serializer} transforms data to JSON format
 
@@ -27,6 +29,14 @@ signup_model = api.model(
     {
         "username": fields.String(),
         "email": fields.String(),
+        "password": fields.String()
+    }
+)
+
+login_model = api.model (
+    "Login",
+    {
+        "username": fields.String(),
         "password": fields.String()
     }
 )
@@ -73,8 +83,26 @@ class SignUp(Resource):
 # The login route
 @api.route("/login", methods=["POST"])
 class Login(Resource):
+    @api.expect(login_model)
     def post(self):
-        pass
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+
+        db_user = User.query.filter_by(username=username).first()
+
+        # Generates JWT tokens
+        if db_user and check_password_hash(db_user.password, password):
+
+            access_token = create_access_token(identity=db_user.username)
+            refresh_token = create_refresh_token(identity=db_user.username)
+
+            return jsonify(
+                {
+                    "access_token": access_token,
+                    "refresh_token": refresh_token
+                }
+            )
 
 # CRUD endpoints 
 @api.route("/recipes")
