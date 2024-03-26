@@ -4,7 +4,7 @@ from flask_restx import Api, Resource, fields
 from models import db, Recipe, User
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
+from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
@@ -116,6 +116,7 @@ class RecipesResource(Resource):
     #A Flask RESTful decorator used to get a single item
     @api.marshal_with(recipe_models)
     @api.expect(recipe_models) #Tells the SwaggerUI what to expect from th API in terms of data format
+    @jwt_required()
     def post(self):
         # Post a recipe
         data = request.get_json()
@@ -136,6 +137,7 @@ class RecipeResource(Resource):
         return recipe
 
     @api.marshal_with(recipe_models)
+    @jwt_required()
     def put(self, id):
         # Update a recipe by a specified ID
         recipe_to_update = Recipe.query.get_or_404(id)
@@ -144,6 +146,7 @@ class RecipeResource(Resource):
         return recipe_to_update
     
     @api.marshal_with(recipe_models)
+    @jwt_required()
     def delete(self, id):
         # Delete a recipe by a specified ID
         recipe_to_delete = Recipe.query.get_or_404(id)
