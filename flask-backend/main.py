@@ -80,30 +80,6 @@ class SignUp(Resource):
         new_user.save()
         return jsonify({"message": f"User {username} created successfully!"})
 
-# The login route
-@api.route("/login", methods=["POST"])
-class Login(Resource):
-    @api.expect(login_model)
-    def post(self):
-        data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
-
-        db_user = User.query.filter_by(username=username).first()
-
-        # Generates JWT tokens
-        if db_user and check_password_hash(db_user.password, password):
-
-            access_token = create_access_token(identity=db_user.username)
-            refresh_token = create_refresh_token(identity=db_user.username)
-
-            return jsonify(
-                {
-                    "access_token": access_token,
-                    "refresh_token": refresh_token
-                }
-            )
-
 # CRUD endpoints 
 @api.route("/recipes")
 class RecipesResource(Resource):
