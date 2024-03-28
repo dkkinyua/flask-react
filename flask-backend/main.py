@@ -37,32 +37,6 @@ class HelloResource(Resource):
         }
         return message
     
-# A sign up route
-@api.route('/signup', methods=["POST"])
-class SignUp(Resource):
-    @api.expect(signup_model)
-    def post(self):
-        data = request.get_json()
-        username = data.get('username')
-        db_user = User.query.filter_by(username=username).first()
-
-        if db_user is not None:
-            return jsonify({"message": f"A user with username {username} currently exists, try using another email."})
-        
-        email = data.get('email')
-        db_email = User.query.filter_by(email=email).first()
-
-        if db_email is not None:
-            return jsonify({"message": f"A user has registered an account with {email}, try using another email."})
-
-        new_user = User(
-            username = data.get('username'),
-            email = data.get('email'),
-            password = generate_password_hash(data.get('password'))
-        )
-        new_user.save()
-        return jsonify({"message": f"User {username} created successfully!"})
-
 # CRUD endpoints 
 @api.route("/recipes")
 class RecipesResource(Resource):
