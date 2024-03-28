@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 auth_ns = Namespace("auth", description="This is a namespace for handling authentication and logins")
 
-signup_model = User(
+signup_model = auth_ns.model(
     "Signup", 
     {
         "username": fields.String(),
@@ -15,7 +15,7 @@ signup_model = User(
     }
 )
 
-login_model = User(
+login_model = auth_ns.model(
     "login", 
     {
         "username": fields.String(),
