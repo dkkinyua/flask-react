@@ -56,7 +56,7 @@ class SignUp(Resource):
         new_user = User(
             username = data.get("username"),
             password = data.get("password"),
-            email = data.get("email")
+            email = generate_password_hash(data.get("email"))
         )
 
         new_user.save()
