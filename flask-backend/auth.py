@@ -52,6 +52,21 @@ class SignUp(Resource):
     @jwt_required()
     def post(self):
         data = request.get_json()
+        username = data.get("username")
+        db_user = User.query.filter_by(username=username).first()
+
+        if db_user is not None:
+            return jsonify({
+                "message": f"A user by the username: {username} exists, try another username."
+            })
+        
+        email = data.get("email")
+        db_email = User.query.filter_by(username=username).first()
+
+        if db_email is not None:
+            return jsonify({
+                "message": f"An account with the email: {email} exists, try another email."
+            })
         
         new_user = User(
             username = data.get("username"),
