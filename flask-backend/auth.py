@@ -1,11 +1,27 @@
 from flask import request, jsonify
-from flask_restx import Resource, Namespace
-from main import signup_model, login_model
+from flask_restx import Resource, Namespace, fields
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token
 from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 
 auth_ns = Namespace("auth", description="This is a namespace for handling authentication and logins")
+
+signup_model = User(
+    "Signup", 
+    {
+        "username": fields.String(),
+        "email": fields.String(),
+        "password": fields.String()
+    }
+)
+
+login_model = User(
+    "login", 
+    {
+        "username": fields.String(),
+        "password": fields.String()
+    }
+)
 
 # A login route
 @auth_ns.route("/login", methods=["POST"])

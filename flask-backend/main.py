@@ -24,23 +24,6 @@ recipe_models = api.model(
     }
 )
 
-signup_model = api.model(
-    "Signup",
-    {
-        "username": fields.String(),
-        "email": fields.String(),
-        "password": fields.String()
-    }
-)
-
-login_model = api.model (
-    "Login",
-    {
-        "username": fields.String(),
-        "password": fields.String()
-    }
-)
-
 
 # First API route
 @api.route('/hello')
