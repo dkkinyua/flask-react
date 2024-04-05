@@ -49,7 +49,6 @@ class Login(Resource):
 @auth_ns.route("/signup", methods=["POST"])
 class SignUp(Resource):
     @auth_ns.expect(signup_model)
-    @jwt_required()
     def post(self):
         data = request.get_json()
         username = data.get("username")
