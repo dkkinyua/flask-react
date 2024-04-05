@@ -1,7 +1,7 @@
 import unittest
 from main import create_app
 from config import TestConfig
-from models import db, User
+from extensions import db
 
 class APITestCase(unittest.TestCase):
 
