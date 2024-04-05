@@ -1,11 +1,13 @@
 from flask import Flask
 from config import DevelopmentConfig
 from flask_restx import Api
-from models import db, Recipe, User
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
+from models import Recipe, User
 from auth import auth_ns
 from recipes import recipe_ns
+from extensions import db
+
 
 def create_app(config):
     app = Flask(__name__)
