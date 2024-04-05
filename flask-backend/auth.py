@@ -23,6 +23,41 @@ login_model = auth_ns.model(
     }
 )
 
+
+@auth_ns.route("/signup", methods=["POST"])
+class SignUp(Resource):
+    @auth_ns.expect(signup_model)
+    def post(self):
+        data = request.get_json()
+        username = data.get("username")
+        db_user = User.query.filter_by(username=username).first()
+
+        if db_user is not None:
+            return jsonify({
+                "message": f"A user by the username: {username} exists, try another username."
+            })
+        
+        email = data.get("email")
+        db_email = User.query.filter_by(email=email).first()
+
+        if db_email is not None:
+            return jsonify({
+                "message": f"An account with the email: {email} exists, try another email."
+            })
+        
+        new_user = User(
+            username = data.get("username"),
+            email = data.get("email"),
+            password = generate_password_hash(data.get("password"))
+        )
+
+        new_user.save()
+        return jsonify(
+            {
+                "message": "User created successfully!"
+            }
+        )
+
 # A login route
 @auth_ns.route("/login", methods=["POST"])
 class Login(Resource):
@@ -44,38 +79,3 @@ class Login(Resource):
                     "refresh_token": refresh_token
                 }
             )
-        
-# A signup route
-@auth_ns.route("/signup", methods=["POST"])
-class SignUp(Resource):
-    @auth_ns.expect(signup_model)
-    def post(self):
-        data = request.get_json()
-        username = data.get("username")
-        db_user = User.query.filter_by(username=username).first()
-
-        if db_user is not None:
-            return jsonify({
-                "message": f"A user by the username: {username} exists, try another username."
-            })
-        
-        email = data.get("email")
-        db_email = User.query.filter_by(username=username).first()
-
-        if db_email is not None:
-            return jsonify({
-                "message": f"An account with the email: {email} exists, try another email."
-            })
-        
-        new_user = User(
-            username = data.get("username"),
-            password = data.get("password"),
-            email = generate_password_hash(data.get("email"))
-        )
-
-        new_user.save()
-        return jsonify(
-            {
-                "message": "User created successfully!"
-            }
-        )

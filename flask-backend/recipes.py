@@ -14,6 +14,15 @@ recipe_model = recipe_ns.model(
     }
 )
 
+
+@recipe_ns.route("/hello", methods=["GET"])
+class HelloResource(Resource):
+    def get(self):
+        message = {
+            "message": "Hello World"
+        }
+        return message
+    
 @recipe_ns.route("/recipes")
 class RecipesResource(Resource):
     # A route to get all recipes
