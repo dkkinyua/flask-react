@@ -5,7 +5,7 @@ from models import Recipe
 
 recipe_ns = Namespace("recipe", description="A namespace for recipes")
 
-recipe_model = recipe_ns(
+recipe_model = recipe_ns.model(
     "Recipe",
     {
         "id": fields.Integer(),
