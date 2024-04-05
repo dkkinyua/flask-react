@@ -7,13 +7,11 @@ from extensions import db
 from auth import auth_ns
 from recipes import recipe_ns
 
-
-
-
 def create_app(config):
     app = Flask(__name__)
     app.config.from_object(config)
     db.init_app(app)
+
 
     migrate = Migrate(app, db)
     JWTManager(app)
@@ -23,14 +21,14 @@ def create_app(config):
     api.add_namespace(auth_ns)
     api.add_namespace(recipe_ns)
 
-    # Shell Configuration
+        # Shell Configuration
     @app.shell_context_processor
     def make_shell_context():
         return {
             "db": db,
             "Recipe": Recipe,
-            "user": User
+            "User": User
         }
 
-    return app   
+    return app  
 

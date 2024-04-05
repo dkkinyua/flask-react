@@ -56,7 +56,7 @@ class SignUp(Resource):
             {
                 "message": "User created successfully!"
             }
-        )
+        ), 201
 
 # A login route
 @auth_ns.route("/login", methods=["POST"])

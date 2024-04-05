@@ -10,12 +10,7 @@ class APITestCase(unittest.TestCase):
         self.client = self.app.test_client()
 
         with self.app.app_context():
-            if not hasattr(self.app, 'extensions'):
-                self.app.extensions = {}
-            
-            if 'sqlalchemy' not in self.app.extensions:
-                db.init_app(self.app)
-                db.create_all()
+            db.create_all()
 
     def test_hello(self):
         hello_response = self.client.get("/recipe/hello")
@@ -25,12 +20,13 @@ class APITestCase(unittest.TestCase):
 
     def test_signup(self):
         test_user = {
-            "username": "testuser",
-            "email": "testuser@recipes.com",
-            "password": "testuser1"
-        }
+                "username": "testuser",
+                "email": "testuser@recipe.com",
+                "password": "testuser1",
+            }
 
-        signup_response = self.client.post(json=test_user)
+        signup_response = self.client.post("/auth/signup", json=test_user)
+
         status_code = signup_response.status_code
 
         self.assertEqual(status_code, 201)
