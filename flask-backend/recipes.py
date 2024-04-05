@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required
+from flask_jwt_extended import jwt_required
 from models import Recipe
 
 recipe_ns = Namespace("recipe", description="A namespace for recipes")
@@ -14,7 +14,7 @@ recipe_model = recipe_ns(
     }
 )
 
-@recipe_ns.route("recipes")
+@recipe_ns.route("/recipes")
 class RecipesResource(Resource):
     # A route to get all recipes
     @recipe_ns.marshal_list_with(recipe_model)
