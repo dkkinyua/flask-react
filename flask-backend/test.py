@@ -53,6 +53,13 @@ class APITestCase(unittest.TestCase):
 
         self.assertEqual(status_code, 200)
 
+    def test_all_recipes(self):
+        recipe_response = self.client.get("/recipe/recipes")
+
+        status_code = recipe_response.status_code
+
+        self.assertEqual(status_code, 200)
+
     def tearDown(self):
         with self.app.app_context():
             db.session.remove()
