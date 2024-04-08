@@ -144,6 +144,40 @@ class APITestCase(unittest.TestCase):
 
         self.assertEqual(status_code, 200)
 
+    def test_delete_recipe(self):
+        signup_response = self.client.post("/auth/signup", json={
+            "username": "testuser",
+            "email": "testuser@recipe.com",
+            "password": "testuser1"
+        })
+
+        test_user = {
+            "username": "testuser",
+            "password": "testuser1"
+        }
+
+        test_recipe = {
+            "title": "Githeri Rasta",
+            "description": "How to cook githeri rasta at home"
+        }
+
+        login_response = self.client.post("/auth/login", json=test_user)
+
+        access_token = login_response.json["access_token"]
+
+        header = {
+            "Authorization": f"Bearer {access_token}"
+        }
+
+        recipe_response = self.client.post("/recipe/recipes", json=test_recipe, headers=header)
+
+        id = recipe_response.json["id"]
+
+        delete_response = self.client.delete(f"/recipe/recipe/{id}", headers=header)
+
+        status_code = delete_response.status_code
+
+        self.assertEqual(status_code, 200)      
 
     def tearDown(self):
         with self.app.app_context():
