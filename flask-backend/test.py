@@ -48,17 +48,50 @@ class APITestCase(unittest.TestCase):
         login_response = self.client.post("/auth/login", json=test_user)
         status_code = login_response.status_code
 
-        json = login_response.json
-        print(json)
+        #json = login_response.json
+        #print(json)
 
         self.assertEqual(status_code, 200)
 
+    # A test to get all recipes
     def test_all_recipes(self):
         recipe_response = self.client.get("/recipe/recipes")
 
         status_code = recipe_response.status_code
 
         self.assertEqual(status_code, 200)
+
+    # A test to post a recipe
+    def test_post_recipe(self):
+        signup_response = self.client.post("/auth/signup", json={
+            "username": "testuser",
+            "email": "testuser@recipe.com",
+            "password": "testuser1"
+        })
+
+        test_user = {
+            "username": "testuser",
+            "password": "testuser1"
+        }
+
+        test_recipe = {
+            "title": "Githeri Rasta",
+            "description": "How to cook githeri rasta at home"
+        }
+
+        login_response = self.client.post("/auth/login", json=test_user)
+
+        access_token = login_response.json["access_token"]
+
+        header = {
+            "Authorization": f"Bearer {access_token}"
+        }
+
+        recipe_response = self.client.post("/recipe/recipes", json=test_recipe, headers=header)
+
+        status_code = recipe_response.status_code
+
+        self.assertEqual(status_code, 201)
 
     def tearDown(self):
         with self.app.app_context():

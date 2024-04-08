@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, make_response
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required
 from models import Recipe
@@ -42,7 +42,7 @@ class RecipesResource(Resource):
             description = data.get("description")
         )
         new_recipe.save()
-        return new_recipe
+        return new_recipe, 201
     
 @recipe_ns.route("/recipe/<int:id>")
 class RecipeResource(Resource):
