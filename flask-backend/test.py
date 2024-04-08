@@ -103,6 +103,48 @@ class APITestCase(unittest.TestCase):
 
         self.assertEqual(status_code, 201)
 
+    # Update a recipe, requires a token.
+    def test_update_recipe(self):
+        signup_response = self.client.post("/auth/signup", json={
+            "username": "testuser",
+            "email": "testuser@recipe.com",
+            "password": "testuser1"
+        })
+
+        test_user = {
+            "username": "testuser",
+            "password": "testuser1"
+        }
+
+        test_recipe = {
+            "title": "Githeri Rasta",
+            "description": "How to cook githeri rasta at home"
+        }
+
+        login_response = self.client.post("/auth/login", json=test_user)
+
+        access_token = login_response.json["access_token"]
+
+        header = {
+            "Authorization": f"Bearer {access_token}"
+        }
+
+        recipe_response = self.client.post("/recipe/recipes", json=test_recipe, headers=header)
+
+        id = recipe_response.json["id"]
+
+        update_test_recipe = {
+            "title": "Pasta Alfredo",
+            "description": "How to cook pasta alfredo at home, in 10 minutes."
+        }
+
+        update_recipe_response = self.client.put(f"/recipe/recipe/{id}", json=update_test_recipe, headers=header)
+
+        status_code = update_recipe_response.status_code
+
+        self.assertEqual(status_code, 200)
+
+
     def tearDown(self):
         with self.app.app_context():
             db.session.remove()
