@@ -61,7 +61,17 @@ class APITestCase(unittest.TestCase):
 
         self.assertEqual(status_code, 200)
 
-    # A test to post a recipe
+    # A test to get a single recipe
+    def test_get_recipe(self):
+        id = 1 
+
+        recipe_response = self.client.get(f"/recipe/recipes/{id}")
+
+        status_code = recipe_response.status_code
+
+        self.assertEqual(status_code, 404)
+
+    # A test to post a recipe, requires a token
     def test_post_recipe(self):
         signup_response = self.client.post("/auth/signup", json={
             "username": "testuser",
