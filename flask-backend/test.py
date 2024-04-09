@@ -179,6 +179,36 @@ class APITestCase(unittest.TestCase):
 
         self.assertEqual(status_code, 200)      
 
+def test_refresh_token(self):
+    # Create a test user and get access and refresh tokens
+    test_user = {
+        "username": "testuser",
+        "email": "testuser@example.com",
+        "password": "testpassword"
+    }
+
+    # Register the test user
+    self.client.post("/auth/signup", json=test_user)
+
+    # Login the test user to get the tokens
+    login_response = self.client.post("/auth/login", json={
+        "username": test_user["username"],
+        "password": test_user["password"]
+    })
+
+    access_token = login_response.json["access_token"]
+    refresh_token = login_response.json["refresh_token"]
+
+    # Refresh the access token
+    refresh_response = self.client.post("/auth/refresh", headers={
+        "Authorization": f"Bearer {refresh_token}"
+    })
+
+    # Check the response
+    self.assertEqual(refresh_response.status_code, 200)
+    self.assertIn("access_token", refresh_response.json)
+
+
     def tearDown(self):
         with self.app.app_context():
             db.session.remove()
