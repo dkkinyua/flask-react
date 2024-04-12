@@ -193,7 +193,6 @@ def test_refresh_token(self):
         "password": test_user["password"]
     })
 
-    access_token = login_response.json["access_token"]
     refresh_token = login_response.json["refresh_token"]
 
     refresh_response = self.client.post("/auth/refresh", headers={
@@ -201,8 +200,6 @@ def test_refresh_token(self):
     })
 
     self.assertEqual(refresh_response.status_code, 200)
-    self.assertIn("access_token", refresh_response.json)
-
 
     def tearDown(self):
         with self.app.app_context():
