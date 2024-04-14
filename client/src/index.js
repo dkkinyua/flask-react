@@ -12,6 +12,7 @@ import Home from './components/home';
 import Login from './components/login';
 import SignUp from './components/signup';
 import CreateRecipe from './components/create_recipe';
+import './styles/styles.css'
 
 
 const App = () => {
