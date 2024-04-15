@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from 'react-bootstrap'
+import {Link} from 'react-router-dom'
 
 const Login = () => {
     const [username, setUsername] = useState("")
@@ -31,6 +32,9 @@ const Login = () => {
                         <Button as="sub" variant="primary" className="mt-2" onClick={loginForm}>
                             Log In
                         </Button>
+                    </Form.Group>
+                    <Form.Group className="mt-3">
+                        <small>Don't have an account? <Link to="/signup">Create an account</Link></small>
                     </Form.Group>
                 </Form>
             </div>

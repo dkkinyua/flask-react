@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 
 const SignUp = () => {
 
@@ -47,6 +48,9 @@ const SignUp = () => {
                         <Button as="sub" variant="primary" className="mt-2" onClick={submitForm}>
                             Sign Up
                         </Button>
+                    </Form.Group>
+                    <Form.Group className="mt-3">
+                        <small>Have an account? <Link to='/login'>Login.</Link></small>
                     </Form.Group>
                 </Form>
             </div>
