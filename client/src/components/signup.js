@@ -10,6 +10,10 @@ const SignUp = () => {
 
     const submitForm = () => {
         console.log("Form Submitted sucessfully!")
+        setUsername("")
+        setEmail("")
+        setPassword("")
+        setConfirmPassword("")
     }
 
 
