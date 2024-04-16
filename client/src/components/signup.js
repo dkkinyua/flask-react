@@ -1,22 +1,17 @@
 import React, { useState } from "react";
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
 
 const SignUp = () => {
 
-    const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState("")
+    const {register, watch, handleSubmit, formState:{errors}} = useForm();
 
-    const submitForm = () => {
-        console.log("Form Submitted sucessfully!")
-        setUsername("")
-        setEmail("")
-        setPassword("")
-        setConfirmPassword("")
+    const submitForm = (data) => {
+        console.log(data)
     }
 
+    console.log(watch("username"))
 
     return (
         <div className="container mt-3">
@@ -27,25 +22,25 @@ const SignUp = () => {
                 <Form>
                     <Form.Group className="mb-2">
                         <Form.Label>Username:</Form.Label>
-                        <Form.Control type='text' placeholder="Username" value={username} name="username" onChange={(e) => { setUsername(e.target.value) }} />
+                        <Form.Control type='text' placeholder="Username" {...register("username", {required:true, maxLength:20})} />
                     </Form.Group>
                     <Form.Group className="mb-2">
                         <Form.Label >Email Address:</Form.Label>
-                        <Form.Control type='email' placeholder="Your Email Address" value={email} name="email" onChange={(e) => { setEmail(e.target.value) }} />
+                        <Form.Control type='email' placeholder="Your Email Address" {...register("email", {required:true, maxLength:50})} />
                         <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                         </Form.Text>
                     </Form.Group>
                     <Form.Group className="mb-2">
                         <Form.Label>Password:</Form.Label>
-                        <Form.Control type='password' placeholder="Password" value={password} name="password" onChange={(e) => { setPassword(e.target.value) }} />
+                        <Form.Control type='password' placeholder="Password" {...register("password", {required:true, minLength:8})} />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label className="mb-2">Confirm Password:</Form.Label>
-                        <Form.Control type='password' placeholder="Confirm your password." value={confirmPassword} name="confirmPassword" onChange={(e) => { setConfirmPassword(e.target.value) }} />
+                        <Form.Control type='password' placeholder="Confirm your password." {...register("confirmPassword", {required:true, minLength:8})} />
                     </Form.Group>
                     <Form.Group>
-                        <Button as="sub" variant="primary" className="mt-2" onClick={submitForm}>
+                        <Button as="sub" variant="primary" className="mt-2" onClick={handleSubmit(submitForm)}>
                             Sign Up
                         </Button>
                     </Form.Group>
