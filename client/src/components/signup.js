@@ -31,12 +31,15 @@ const SignUp = () => {
                         <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                         </Form.Text>
+                        <br></br>
                         {errors.email && <span className="errors">Email is required</span>}
                     </Form.Group>
                     <Form.Group className="mb-2">
                         <Form.Label>Password:</Form.Label>
                         <Form.Control type='password' placeholder="Password" {...register("password", {required:true, minLength:8})} />
                         {errors.password && <span className="errors">Password is required.</span>}
+                        <br></br>
+                        {errors.password && errors.password.type === "minLength" && <span className="errors">Password should be 8 characters long.</span>}
                     </Form.Group>
                     <Form.Group>
                         <Form.Label className="mb-2">Confirm Password:</Form.Label>
