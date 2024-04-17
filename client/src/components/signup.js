@@ -34,8 +34,6 @@ const SignUp = () => {
                     setShow(true)
                 })
                 .catch(err => console.log(err))
-
-            alert("User has been created, you can now log in.")
             reset()
         }
         else {
@@ -51,15 +49,15 @@ const SignUp = () => {
             <div className="form">
                 {show ?
                 <>
-                    <h1>
-                        Sign Up Here
-                    </h1>
                     <Alert variant="success" onClose={() => setShow(false)} dismissible>
                         <Alert.Heading>Hooray!</Alert.Heading>
                         <p>
                             {serverResponse}
                         </p>
                     </Alert>
+                    <h1>
+                        Sign Up Here
+                    </h1>
                 </>
                     :
                     <h1>

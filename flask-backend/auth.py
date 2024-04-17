@@ -54,7 +54,7 @@ class SignUp(Resource):
         new_user.save()
         return make_response(jsonify(
             {
-                "message": "User created successfully!"
+                "message": f"User {username} created successfully!"
             }
         ), 201)
 
