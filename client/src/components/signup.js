@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
 const SignUp = () => {
 
     const { register, watch, handleSubmit, reset, formState: { errors } } = useForm();
+    const [show, setShow] = useState()
+    const [serverResponse, setServerResponse] = useState("")
 
     const submitForm = (data) => {
         if (data.password === data.confirmPassword) {
@@ -25,14 +27,18 @@ const SignUp = () => {
 
             fetch('/auth/signup', requestOptions)
 
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    setServerResponse(data.message)
+                    setShow(true)
+                })
+                .catch(err => console.log(err))
 
             alert("User has been created, you can now log in.")
             reset()
         }
-        else{
+        else {
             alert("Passwords don't match, try again.")
         }
     }
@@ -41,10 +47,26 @@ const SignUp = () => {
 
     return (
         <div className="container mt-3">
+
             <div className="form">
-                <h1>
-                    Sign Up Here.
-                </h1>
+                {show ?
+                <>
+                    <h1>
+                        Sign Up Here
+                    </h1>
+                    <Alert variant="success" onClose={() => setShow(false)} dismissible>
+                        <Alert.Heading>Hooray!</Alert.Heading>
+                        <p>
+                            {serverResponse}
+                        </p>
+                    </Alert>
+                </>
+                    :
+                    <h1>
+                        Sign Up Here.
+                    </h1>
+                }
+
                 <Form>
                     <Form.Group className="mb-2">
                         <Form.Label>Username:</Form.Label>
@@ -77,7 +99,7 @@ const SignUp = () => {
                             Sign Up
                         </Button>
                     </Form.Group>
-                    <Form.Group className="mt-3">
+                    <Form.Group className="mt-3 mb-2">
                         <small>Have an account? <Link to='/login'>Login.</Link></small>
                     </Form.Group>
                 </Form>
