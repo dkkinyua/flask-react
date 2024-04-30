@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 
 const SignUp = () => {
 
-    const { register, watch, handleSubmit, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const [show, setShow] = useState()
     const [serverResponse, setServerResponse] = useState("")
 

@@ -1,33 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
+    const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true)
+
+    const toggleNavBar = () => {
+        setIsNavbarCollapsed(!isNavbarCollapsed)
+    }
     return (
-        <nav className="navbar navbar-expand-lg bg-bord-tertiary navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg bg-light">
             <div className="container-fluid">
-                <Link className="navbar-brand" to='/'>Recipes App</Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <Link className="navbar-brand" to="#">Blooog</Link>
+                <button className="navbar-toggler" type="button" onClick={toggleNavBar}>
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                <div className={`collapse navbar-collapse ${isNavbarCollapsed ? '' : 'show'}`} id="navbarNav">
+                    <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <Link className="nav-link active" to='/create-recipe'>Create Recipe</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link active" to='/signup'>Sign Up</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link active" to='/login'>Log In</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link active">Log Out</Link>
+                            <Link className="nav-link active" aria-current="page" to="#">Home</Link>
                         </li>
                     </ul>
-                    <form className="d-flex" role="search">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                            <button className="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <Link className="nav-link" to="#">Login</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="#">Signup</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="#">Create Recipe</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="#">Logout</Link>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
