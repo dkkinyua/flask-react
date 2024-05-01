@@ -22,3 +22,5 @@ class TestConfig(Config):
     SQLALCHEMY_ECHO = False
     TESTING = True
 
+secret_key = Config.SECRET_KEY
+print(secret_key)
