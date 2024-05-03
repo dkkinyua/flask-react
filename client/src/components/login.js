@@ -2,12 +2,31 @@ import React, { useState } from "react";
 import { Form, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
+import { login } from '../auth'
 
 const Login = () => {
 
     const {register, handleSubmit, reset, watch, formState:{ errors }} = useForm()
+    const [serverResponse, setServerResponse] = useState("")
+    const [show, setShow] = useState()
 
-    const loginForm = () => {
+    const loginForm = (data) => {
+
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }
+
+        fetch("/auth/login", requestOptions)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            setServerResponse(data.access_token)
+            login(data.access_token)
+        })
         console.log("Logged in.")
         reset()
     }
