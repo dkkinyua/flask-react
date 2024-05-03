@@ -78,6 +78,18 @@ class LoginResource(Resource):
                     "refresh_token": refresh_token
                 }
             )
+        
+        if db_user.password != password:
+            return jsonify({
+                "message": "Incorrect password, try again"
+            })
+        
+        else:
+            return jsonify({
+                "message": f"The user {username} doesn't exist. Check your username or password. Create an account you haven't yet."
+            })
+        
+        
 
 # To create new refresh tokens
 @auth_ns.route("/refresh", methods=["POST"])
