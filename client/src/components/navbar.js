@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../auth";
+import { useAuth, logout } from "../auth";
 
 const NavBar = () => {
     const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true)
@@ -19,7 +19,7 @@ const NavBar = () => {
                     <Link className="nav-link" to="create-recipe">Create Recipe</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="#">Logout</Link>
+                    <a className="nav-link" to="#" onClick={() => {logout()}}>Logout</a>
                 </li>
             </>
         )

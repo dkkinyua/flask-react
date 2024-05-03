@@ -35,9 +35,9 @@ const Home = () => {
     }
     const [logged] = useAuth()
     return (
-        <>
+        <Container>
             {logged ? <LoggedInHome /> : <LoggedOutHome />}
-        </>
+        </Container>
     )
 }
 
