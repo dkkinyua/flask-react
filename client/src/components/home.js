@@ -1,17 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
 import { Container, Col, Row, Button } from 'react-bootstrap'
 import { useAuth } from "../auth";
 
+import Recipe from "./recipe";
+
 
 
 const Home = () => {
+
     const LoggedInHome = () => {
+        const [recipes, setRecipes] = useState([])
+
+        useEffect(
+            () => {
+                fetch("recipe/recipes")
+                    .then(r => r.json())
+                    .then(data => {
+                        console.log(data)
+                        setRecipes(data)
+                    })
+                    .catch(e => console.log(e))
+            }, []
+        )
         return (
-            <div className="recipes">
-                <h1>
-                    Recipes will be here!
-                </h1>
+            <div className="container mt-3">
+                {
+                recipes.map(
+                    (recipes) => (
+                        <Recipe title={recipes.title} description={recipes.title}/>
+                    )
+                )
+                }
             </div>
         )
     }

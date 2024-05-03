@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Button } from 'react-bootstrap'
-import { Link, redirect } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { login } from "../auth"
 import { useNavigate } from "react-router-dom";
@@ -11,9 +11,6 @@ const Login = () => {
     const navigate = useNavigate()
 
     const loginForm = (data) => {
-
-        console.log(data)
-
         const requestOptions = {
             method: "POST",
             headers: {
@@ -25,11 +22,9 @@ const Login = () => {
         fetch("/auth/login", requestOptions)
         .then(res => res.json())
         .then(data => {
-            console.log(data.access_token)
             login(data.access_token)
             navigate("/")
         })
-        console.log("Logged in.")
         reset()
     }
 
