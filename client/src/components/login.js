@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Form, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, redirect } from 'react-router-dom'
 import { useForm } from "react-hook-form";
-import { login } from '../auth'
+import { login } from "../auth"
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
-    const {register, handleSubmit, reset, watch, formState:{ errors }} = useForm()
-    const [serverResponse, setServerResponse] = useState("")
-    const [show, setShow] = useState()
+    const {register, handleSubmit, reset, formState:{ errors }} = useForm()
+    const navigate = useNavigate()
 
     const loginForm = (data) => {
+
+        console.log(data)
 
         const requestOptions = {
             method: "POST",
@@ -23,9 +25,9 @@ const Login = () => {
         fetch("/auth/login", requestOptions)
         .then(res => res.json())
         .then(data => {
-            console.log(data)
-            setServerResponse(data.access_token)
+            console.log(data.access_token)
             login(data.access_token)
+            navigate("/")
         })
         console.log("Logged in.")
         reset()
@@ -54,10 +56,10 @@ const Login = () => {
                         />
                         {errors.password && errors.password.type === "required" && <span className="errors">Password is required</span>}
                         <br/>
-                        {errors.password && errors.password.type == "required" && <span className="errors">Minimum characters required: 8</span>}
+                        {errors.password && errors.password.type === "required" && <span className="errors">Minimum characters required: 8</span>}
                     </Form.Group>
                     <Form.Group>
-                        <Button as="sub" variant="primary" className="mt-2" onClick={handleSubmit(loginForm)}>
+                        <Button as="sub" variant="primary" className="mt-2" onClick={handleSubmit(loginForm)} type="submit">
                             Log In
                         </Button>
                     </Form.Group>

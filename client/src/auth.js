@@ -5,7 +5,7 @@ import { createAuthProvider } from 'react-token-auth'
 
 export const { useAuth, authFetch, login, logout } =
     createAuthProvider({
-        getAccessToken: access_token,
+        getAccessToken: "access_token", // Error: should have been a string, not a var
         storage: localStorage,
         onUpdateToken: token =>
             fetch('/refresh', {

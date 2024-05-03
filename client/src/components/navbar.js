@@ -10,7 +10,7 @@ const NavBar = () => {
     return (
         <nav className="navbar navbar-expand-lg bg-light">
             <div className="container-fluid">
-                <Link className="navbar-brand" to="#">Blooog</Link>
+                <Link className="navbar-brand" to="#">Recipes App</Link>
                 <button className="navbar-toggler" type="button" onClick={toggleNavBar}>
                     <span className="navbar-toggler-icon"></span>
                 </button>
