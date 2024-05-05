@@ -4,7 +4,7 @@ import { Card } from 'react-bootstrap'
 
 const Recipe = ({ title, description }) => {
     return (
-        <Card className='container mt-2'>
+        <Card className='container rounded-div mt-2'>
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
                 <p>{description}</p>
