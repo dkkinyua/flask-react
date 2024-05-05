@@ -17,7 +17,6 @@ const Home = () => {
                 fetch("recipe/recipes")
                     .then(r => r.json())
                     .then(data => {
-                        console.log(data)
                         setRecipes(data)
                     })
                     .catch(e => console.log(e))

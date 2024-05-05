@@ -1,12 +1,15 @@
 import React from 'react'
+import { Card } from 'react-bootstrap'
 
 
 const Recipe = ({ title, description }) => {
     return (
-        <div className='container'> 
-            <h2>{title}</h2>
-            <p>{description}</p>
-        </div>
+        <Card className='container mt-2'>
+            <Card.Body>
+                <Card.Title>{title}</Card.Title>
+                <p>{description}</p>
+            </Card.Body>
+        </Card>
 
     )
 }
