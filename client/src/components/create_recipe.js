@@ -8,7 +8,7 @@ const CreateRecipe = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
     const [show, setShow] = useState()
 
-    const SubmitRecipe = (data) => {
+    const submitRecipe = (data) => {
         const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY")
 
         const body = {
@@ -74,7 +74,7 @@ const CreateRecipe = () => {
                     )}
                 </Form.Group>
 
-                <Button className="mt-2" as="sub" variant="success" onClick={handleSubmit(SubmitRecipe)}>Submit Recipe</Button>
+                <Button className="mt-2" as="sub" variant="success" onClick={handleSubmit(submitRecipe)}>Submit Recipe</Button>
             </Form>
         </Container>
     )
