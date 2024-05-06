@@ -14,6 +14,8 @@ const Home = () => {
         const {register, handleSubmit, formState:{ errors }, setValue} = useForm()
         const [recipeId, setRecipeId] = useState(0)
         const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY")
+        
+
 
         useEffect(
             () => {
@@ -40,6 +42,7 @@ const Home = () => {
         }
 
         const updateRecipe = (data) => {
+            const reload = window.location.reload()
             const requestOptions = {
                 method: "PUT",
                 headers: {
@@ -51,7 +54,10 @@ const Home = () => {
 
             fetch(`/recipe/recipe/${recipeId}`, requestOptions)
             .then(r => r.json())
-            .then(data => console.log(data))
+            .then(data => {
+                console.log(data)
+                reload()
+            })
             .catch(e => console.log(data))
         }
 
@@ -98,7 +104,7 @@ const Home = () => {
                 {
                     recipes.map(
                         (recipes, index) => (
-                            <Recipe key={index} title={recipes.title} description={recipes.title} onClick={() => openModal(recipes.id)} />
+                            <Recipe key={index} title={recipes.title} description={recipes.description} onClick={() => openModal(recipes.id)} />
                         )
                     )
                 }
