@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
-import { Container, Col, Row, Button } from 'react-bootstrap'
+import { Button, Container, Col, Row, Modal } from 'react-bootstrap'
 import { useAuth } from "../auth";
 
 import Recipe from "./recipe";
@@ -11,6 +11,7 @@ const Home = () => {
 
     const LoggedInHome = () => {
         const [recipes, setRecipes] = useState([])
+        const [show, setShow] = useState()
 
         useEffect(
             () => {
@@ -21,14 +22,34 @@ const Home = () => {
                     })
             }, []
         )
+
+        const closeModal = () => setShow(false)
+        const openModal = () => setShow(true)
+
         return (
             <div className="container mt-3">
+                <Modal show={show} size='lg' onHide={closeModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Update Recipe</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Updaate your recipe here.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={closeModal}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={closeModal}>
+                            Save Changes
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
                 {
-                recipes.map(
-                    (recipes) => (
-                        <Recipe title={recipes.title} description={recipes.title}/>
+                    recipes.map(
+                        (recipes) => (
+                            <Recipe title={recipes.title} description={recipes.title} onClick={openModal} />
+                        )
                     )
-                )
                 }
             </div>
         )
