@@ -11,7 +11,8 @@ const Home = () => {
     const LoggedInHome = () => {
         const [recipes, setRecipes] = useState([])
         const [show, setShow] = useState()
-        const {register, handleSubmit, formState:{ errors }} = useForm()
+        const {register, handleSubmit, formState:{ errors }, setValue} = useForm()
+        const [recipeId, setRecipeId] = useState(0)
         const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY")
 
         useEffect(
@@ -24,28 +25,35 @@ const Home = () => {
             }, []
         )
 
+        const closeModal = () => setShow(false)
+        const openModal = (id) => {
+
+            setShow(true)
+            setRecipeId(id)
+
+            recipes.forEach((recipe) => {
+                if (recipe.id === id) {
+                    setValue("title", recipe.title);
+                    setValue("description", recipe.description);
+                }
+            });
+        }
+
         const updateRecipe = (data) => {
-            const body = {
-                title: data.title,
-                description: data.description
-            }
             const requestOptions = {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${JSON.parse(token)}`
                 },
-                body: JSON.stringify(body)
+                body: JSON.stringify(data)
             }
 
-            fetch("/recipe/recipe", requestOptions)
+            fetch(`/recipe/recipe/${recipeId}`, requestOptions)
             .then(r => r.json())
             .then(data => console.log(data))
             .catch(e => console.log(data))
         }
-
-        const closeModal = () => setShow(false)
-        const openModal = () => setShow(true)
 
         return (
             <div className="container mt-3">
@@ -84,13 +92,13 @@ const Home = () => {
                         <Button variant="secondary" onClick={closeModal}>
                             Close
                         </Button>
-                        <Button as="sub" variant="success" onClick={handleSubmit(updateRecipe)}>Update Recipe</Button>
+                        <Button as="sub" variant="success" onClick={handleSubmit(updateRecipe)}>Update</Button>
                     </Modal.Footer>
                 </Modal>
                 {
                     recipes.map(
-                        (recipes) => (
-                            <Recipe title={recipes.title} description={recipes.title} onClick={openModal} />
+                        (recipes, index) => (
+                            <Recipe key={index} title={recipes.title} description={recipes.title} onClick={() => openModal(recipes.id)} />
                         )
                     )
                 }
