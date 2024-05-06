@@ -19,7 +19,6 @@ const Home = () => {
                     .then(data => {
                         setRecipes(data)
                     })
-                    .catch(e => console.log(e))
             }, []
         )
         return (

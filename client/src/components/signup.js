@@ -31,19 +31,16 @@ const SignUp = () => {
 
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
                     setServerResponse(data.message)
                     setShow(true)
+                    reset()
                     navigate("/login")
                 })
-            reset()
         }
         else {
             alert("Passwords don't match, try again.")
         }
     }
-
-    // console.log(watch("username"))
 
     return (
         <div className="container mt-3">

@@ -28,10 +28,9 @@ const CreateRecipe = () => {
         fetch("/recipe/recipes", requestOptions)
             .then(r => r.json())
             .then(data => {
-                console.log(data)
                 setShow(true)
+                reset()
             })
-        reset()
     }
 
     return (
