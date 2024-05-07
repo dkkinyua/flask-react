@@ -11,10 +11,10 @@ const Home = () => {
     const LoggedInHome = () => {
         const [recipes, setRecipes] = useState([])
         const [show, setShow] = useState()
-        const {register, handleSubmit, formState:{ errors }, setValue} = useForm()
+        const { register, handleSubmit, formState: { errors }, setValue } = useForm()
         const [recipeId, setRecipeId] = useState(0)
         const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY")
-        
+
 
 
         useEffect(
@@ -26,6 +26,14 @@ const Home = () => {
                     })
             }, []
         )
+
+        const getAllRecipes = () => {
+            fetch("recipe/recipes")
+                .then(r => r.json())
+                .then(data => {
+                    setRecipes(data)
+                })
+        }
 
         const closeModal = () => setShow(false)
         const openModal = (id) => {
@@ -53,12 +61,31 @@ const Home = () => {
             }
 
             fetch(`/recipe/recipe/${recipeId}`, requestOptions)
+                .then(r => r.json())
+                .then(data => {
+                    console.log(data)
+                    reload()
+                })
+                .catch(e => console.log(data))
+        }
+
+        const deleteRecipe = (id) => {
+            console.log(id)
+            const requestOptions = {
+                method: "DELETE",
+                headers: {
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${JSON.parse(token)}`
+                }
+            }
+
+            fetch(`/recipe/recipe/${id}`, requestOptions)
             .then(r => r.json())
             .then(data => {
                 console.log(data)
-                reload()
+                getAllRecipes()
             })
-            .catch(e => console.log(data))
+            .catch(e => console.log(e))
         }
 
         return (
@@ -104,7 +131,7 @@ const Home = () => {
                 {
                     recipes.map(
                         (recipes, index) => (
-                            <Recipe key={index} title={recipes.title} description={recipes.description} onClick={() => openModal(recipes.id)} />
+                            <Recipe key={index} title={recipes.title} description={recipes.description} onClick={() => openModal(recipes.id)} onClickDelete={() => deleteRecipe(recipes.id)} />
                         )
                     )
                 }
