@@ -15,7 +15,7 @@ This application is built on ReactJS for the front end and Flask for the back en
     git clone https://github.com/dkkinyua/flask-react.git
   ```
   
-- ** Download the necessary Flask dependencies**: Navigate to the project in your computer to the "flask-backend" folder and run the following commands:
+- **Download the necessary Flask dependencies**: Navigate to the project in your computer to the "flask-backend" folder and run the following commands:
   ```bash
     cd flask-backend
     pip install -r requirements.txt
