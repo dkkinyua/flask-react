@@ -15,6 +15,19 @@ This application is built on ReactJS for the front end and Flask for the back en
     git clone https://github.com/dkkinyua/flask-react.git
   ```
   
+- **Install your preferred virtual environment**: After cloning the repository, you can install your preferred virtual environment, (mine's virtualenv), to install virtualenv into your project, run:
+  ```bash
+    virtualenv yourenv
+  ```
+  To activate the virtual environment, on Windows, run:
+  ```bash
+    yourenv/Scripts/activate
+  ```
+  on macOS and Linux run:
+  ```bash
+     source yourenv/bin/activate
+  ```
+  
 - **Download the necessary Flask dependencies**: Navigate to the project in your computer to the "flask-backend" folder and run the following commands:
   ```bash
     cd flask-backend
