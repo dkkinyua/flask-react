@@ -38,7 +38,7 @@ const CreateRecipe = () => {
             {show ?
                 <>
                     <Alert variant="success" onClose={() => setShow(false)} dismissible>
-                        <Alert.Heading>Your recipe has been posted.</Alert.Heading>
+                        <Alert.Heading><h6>Your recipe has been posted.</h6></Alert.Heading>
                     </Alert>
                     <h2>
                         Create a recipe here.

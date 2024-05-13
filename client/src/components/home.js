@@ -9,48 +9,43 @@ import Recipe from "./recipe";
 const Home = () => {
 
     const LoggedInHome = () => {
-        const [recipes, setRecipes] = useState([])
-        const [show, setShow] = useState()
-        const { register, handleSubmit, formState: { errors }, setValue } = useForm()
-        const [recipeId, setRecipeId] = useState(0)
-        const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY")
-
-
-
-        useEffect(
-            () => {
-                fetch("recipe/recipes")
-                    .then(r => r.json())
-                    .then(data => {
-                        setRecipes(data)
-                    })
-            }, []
-        )
-
+        const [recipes, setRecipes] = useState([]);
+        const [show, setShow] = useState(false);
+        const { register, handleSubmit, formState: { errors }, setValue } = useForm();
+        const [recipeId, setRecipeId] = useState(0);
+        const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY");
+    
+        useEffect(() => {
+            fetch("recipe/recipes")
+                .then(r => r.json())
+                .then(data => {
+                    setRecipes(data);
+                });
+        }, []);
+    
         const getAllRecipes = () => {
             fetch("recipe/recipes")
                 .then(r => r.json())
                 .then(data => {
-                    setRecipes(data)
-                })
-        }
-
-        const closeModal = () => setShow(false)
+                    setRecipes(data);
+                });
+        };
+    
+        const closeModal = () => setShow(false);
         const openModal = (id) => {
-
-            setShow(true)
-            setRecipeId(id)
-
+            setShow(true);
+            setRecipeId(id);
+    
             recipes.forEach((recipe) => {
                 if (recipe.id === id) {
                     setValue("title", recipe.title);
                     setValue("description", recipe.description);
                 }
             });
-        }
-
+        };
+    
         const updateRecipe = (data) => {
-            const reload = window.location.reload()
+            const reload = window.location.reload();
             const requestOptions = {
                 method: "PUT",
                 headers: {
@@ -58,38 +53,38 @@ const Home = () => {
                     "Authorization": `Bearer ${JSON.parse(token)}`
                 },
                 body: JSON.stringify(data)
-            }
-
+            };
+    
             fetch(`/recipe/recipe/${recipeId}`, requestOptions)
                 .then(r => r.json())
                 .then(data => {
-                    console.log(data)
-                    reload()
+                    console.log(data);
+                    reload();
                 })
-                .catch(e => console.log(data))
-        }
-
+                .catch(e => console.log(data));
+        };
+    
         const deleteRecipe = (id) => {
-            console.log(id)
             const requestOptions = {
                 method: "DELETE",
                 headers: {
                     "content-type": "application/json",
                     "Authorization": `Bearer ${JSON.parse(token)}`
                 }
-            }
-
+            };
+    
             fetch(`/recipe/recipe/${id}`, requestOptions)
-            .then(r => r.json())
-            .then(data => {
-                console.log(data)
-                getAllRecipes()
-            })
-            .catch(e => console.log(e))
-        }
+                .then(r => r.json())
+                .then(data => {
+                    getAllRecipes();
+                })
+                .catch(e => console.log(e));
+        };
+    
 
         return (
             <div className="container mt-3">
+
                 <Modal show={show} size='lg' onHide={closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Update Recipe</Modal.Title>
@@ -128,13 +123,16 @@ const Home = () => {
                         <Button as="sub" variant="success" onClick={handleSubmit(updateRecipe)}>Update</Button>
                     </Modal.Footer>
                 </Modal>
-                {
-                    recipes.map(
-                        (recipes, index) => (
-                            <Recipe key={index} title={recipes.title} description={recipes.description} onClick={() => openModal(recipes.id)} onClickDelete={() => deleteRecipe(recipes.id)} />
+
+                    {
+                        recipes.map(
+                            (recipes, index) => (
+                                <Recipe key={index} title={recipes.title} description={recipes.description} onClick={() => openModal(recipes.id)} onClickDelete={() => deleteRecipe(recipes.id)} />
+                            )
                         )
-                    )
-                }
+                    }
+
+
             </div>
         )
     }
